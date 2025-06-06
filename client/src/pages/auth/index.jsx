@@ -4,14 +4,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
-import { SIGNUP_ROUTE } from "@/utils/constants";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Auth = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const validateLogin = () => {
+    if (!email.length) {
+      toast.error("Email is required.");
+      return false;
+    } else if (!password.length) {
+      toast.error("Password is required.");
+      return false;
+    }
+
+    return true;
+  };
 
   const validateSignup = () => {
     if (!email.length) {
@@ -28,7 +43,31 @@ const Auth = () => {
     return true;
   };
 
-  const handleLogin = async () => {};
+  const handleLogin = async () => {
+    if (validateLogin()) {
+      const response = await apiClient.post(LOGIN_ROUTE, {
+        email,
+        password,
+      });
+
+      console.log(response);
+
+      if (response.data.user.id) {
+        if (response.data.user.profileSetup) {
+          navigate("/chat");
+        } else {
+          navigate("/profile");
+        }
+
+        toast.success("Logged in successfully!");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      } else {
+        toast.error("Failed to create account. Please try again.");
+      }
+    }
+  };
 
   const handleSignup = async () => {
     if (validateSignup()) {
@@ -40,6 +79,8 @@ const Auth = () => {
       console.log(response);
 
       if (response.status === 201) {
+        navigate("/profile");
+
         toast.success("Account created successfully!");
         setEmail("");
         setPassword("");
@@ -67,7 +108,7 @@ const Auth = () => {
             </p>
           </div>
           <div className="flex items-center justify-center w-full">
-            <Tabs className="w-3/4 ">
+            <Tabs className="w-3/4" defaultValue="login">
               <TabsList className="bg-transparent rounded-none w-full ">
                 <TabsTrigger
                   value="login"
