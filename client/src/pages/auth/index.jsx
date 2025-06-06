@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
+import { useAppStore } from "@/store";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ import { toast } from "sonner";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { setUserInfo } = useAppStore();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,6 +55,8 @@ const Auth = () => {
       console.log(response);
 
       if (response.data.user.id) {
+        setUserInfo(response.data.user);
+
         if (response.data.user.profileSetup) {
           navigate("/chat");
         } else {
@@ -79,6 +83,7 @@ const Auth = () => {
       console.log(response);
 
       if (response.status === 201) {
+        setUserInfo(response.data.user);
         navigate("/profile");
 
         toast.success("Account created successfully!");
