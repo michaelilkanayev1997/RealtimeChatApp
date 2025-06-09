@@ -4,7 +4,7 @@ A fully responsive, real-time chat application built with React, Node.js, and So
 
 ---
 
-## ✨ Features
+## Features
 
 ### 🖥️ Frontend
 
@@ -12,6 +12,7 @@ A fully responsive, real-time chat application built with React, Node.js, and So
 - 🎨 **Tailwind CSS** – Utility-first styling for responsive layouts
 - 🧩 **ShadCN UI** – Pre-styled, accessible UI components
 - 🧠 **Zustand** – Lightweight and scalable state management
+- 📡 **React Context API** – Global Socket.io integration and access
 - 🌐 **Axios** – Streamlined HTTP communication with the backend
 - 😄 **Emoji Picker** – Enrich messages with emoji support
 - 📱 **Responsive Design** – Optimized for all screen sizes (mobile, tablet, desktop)
