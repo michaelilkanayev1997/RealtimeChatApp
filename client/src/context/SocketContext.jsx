@@ -26,13 +26,14 @@ export const SocketProvider = ({ children }) => {
 
       const handleRecieveMessage = (message) => {
         const { selectedChatData, selectedChatType, addMessage } =
-          useAppStore();
+          useAppStore.getState();
 
         if (
           selectedChatType !== undefined &&
           (selectedChatData._id === message.sender._id ||
             selectedChatData._id === message.recipient._id)
         ) {
+          console.log("message rcv", message);
           addMessage(message);
         }
       };
