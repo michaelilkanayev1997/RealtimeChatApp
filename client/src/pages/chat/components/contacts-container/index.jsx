@@ -1,7 +1,23 @@
+import { useEffect } from "react";
+
 import NewDM from "./components/new-dm";
 import ProfileInfo from "./components/profile-info";
+import { GET_DM_CONTACTS_ROUTE } from "@/utils/constants";
+import { apiClient } from "@/lib/api-client";
 
 const ContactsContainer = () => {
+  useEffect(() => {
+    const getContacts = async () => {
+      const response = await apiClient.get(GET_DM_CONTACTS_ROUTE);
+
+      if (response.data.contacts) {
+        console.log(response.data.contacts);
+      }
+    };
+
+    getContacts();
+  }, []);
+
   return (
     <div
       className="relative md:w-[35vw] lg:w-[30vw] xl:w-[20vw] bg-[#1b1c24] 
