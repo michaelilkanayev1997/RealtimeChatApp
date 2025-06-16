@@ -1,7 +1,8 @@
 import { compare } from "bcrypt";
-import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import { renameSync, unlinkSync } from "fs";
+
+import User from "../models/UserModel.js";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
 
