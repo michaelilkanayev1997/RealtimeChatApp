@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { MdFolderZip } from "react-icons/md";
 import moment from "moment";
 import { IoMdArrowRoundDown } from "react-icons/io";
+import { IoCloseSharp } from "react-icons/io5";
 
 import { useAppStore } from "@/store";
 import { apiClient } from "@/lib/api-client";
 import { GET_ALL_MESSAGES_ROUTE, HOST } from "@/utils/constants";
-import { IoCloseSharp } from "react-icons/io5";
 
 const MessageContainer = () => {
   const scrollRef = useRef();

@@ -1,12 +1,13 @@
-import { useSocket } from "@/context/SocketContext";
-import { apiClient } from "@/lib/api-client";
-import { useAppStore } from "@/store";
-import { UPLOAD_FILE_ROUTE } from "@/utils/constants";
 import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import { GrAttachment } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { RiEmojiStickerLine } from "react-icons/ri";
+
+import { useSocket } from "@/context/SocketContext";
+import { apiClient } from "@/lib/api-client";
+import { useAppStore } from "@/store";
+import { UPLOAD_FILE_ROUTE } from "@/utils/constants";
 
 const MessageBar = () => {
   const emojiRef = useRef();
