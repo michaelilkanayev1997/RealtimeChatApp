@@ -25,3 +25,6 @@ server/logs/
 server/tmp/
 server/dist/
 server/build/
+
+# Exclude uploads folder
+uploads/
