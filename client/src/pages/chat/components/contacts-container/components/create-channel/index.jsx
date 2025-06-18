@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import Lottie from "react-lottie";
 
 import {
   Dialog,
@@ -15,24 +14,20 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
-import { animationDefaultOptions, getColor } from "@/lib/utils";
 import { apiClient } from "@/lib/api-client";
 import {
+  CREATE_CHANNEL_ROUTE,
   GET_ALL_CONTACTS_ROUTE,
-  HOST,
-  SEARCH_CONTACTS_ROUTES,
 } from "@/utils/constants";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useAppStore } from "@/store";
 import { Button } from "@/components/ui/button";
 import MultipleSelector from "@/components/ui/multipleselect";
 
 const CreateChannel = () => {
-  const { setSelectedChatType, setSelectedChatData } = useAppStore();
+  const { setSelectedChatType, setSelectedChatData, addChannel } =
+    useAppStore();
 
   const [newChannelModal, setNewChannelModal] = useState(false);
-  const [searchedContacts, setSearchedContacts] = useState([]);
   const [allContacts, setAllContacts] = useState([]);
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [channelName, setChannelName] = useState("");
@@ -47,7 +42,26 @@ const CreateChannel = () => {
     getData();
   }, []);
 
-  const createChannel = async () => {};
+  const createChannel = async () => {
+    try {
+      console.log(channelName.length >= 0 && selectedContacts.length > 0);
+      if (channelName.length >= 0 && selectedContacts.length > 0) {
+        const response = await apiClient.post(CREATE_CHANNEL_ROUTE, {
+          name: channelName,
+          members: selectedContacts.map((contact) => contact.value),
+        });
+
+        if (response.status === 201) {
+          setChannelName("");
+          setSelectedContacts([]);
+          setNewChannelModal(false);
+          addChannel(response.data.channel);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
