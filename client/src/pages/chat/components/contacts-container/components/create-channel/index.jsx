@@ -44,7 +44,6 @@ const CreateChannel = () => {
 
   const createChannel = async () => {
     try {
-      console.log(channelName.length >= 0 && selectedContacts.length > 0);
       if (channelName.length >= 0 && selectedContacts.length > 0) {
         const response = await apiClient.post(CREATE_CHANNEL_ROUTE, {
           name: channelName,
