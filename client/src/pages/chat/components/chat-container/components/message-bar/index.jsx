@@ -42,6 +42,8 @@ const MessageBar = () => {
   };
 
   const handleSendMessage = async () => {
+    if (message.trim() === "") return;
+
     if (selectedChatType === "contact") {
       socket.emit("sendMessage", {
         sender: userInfo.id,
@@ -156,12 +158,14 @@ const MessageBar = () => {
       </div>
 
       <button
-        className="bg-[#8417ff] rounded-md flex items-center justify-center p-5
-         focus:border-none hover:bg-[#741bda] focus:bg-[#741bda] focus:outline-none
-           focus:text-white duration-300 transition-all"
-        onClick={handleSendMessage}
+        className="bg-[#1e2027] hover:bg-[#2a2d36] text-gray-100 rounded-md p-4 flex items-center justify-center 
+             transition-colors duration-200 focus:outline-none active:outline-none"
+        onClick={(e) => {
+          e.currentTarget.blur(); // removes focus after click
+          handleSendMessage();
+        }}
       >
-        <IoSend className="text-2xl" />
+        <IoSend className="text-2xl text-blue-400" />
       </button>
     </div>
   );
