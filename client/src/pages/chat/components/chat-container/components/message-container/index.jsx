@@ -6,7 +6,11 @@ import { IoCloseSharp } from "react-icons/io5";
 
 import { useAppStore } from "@/store";
 import { apiClient } from "@/lib/api-client";
-import { GET_ALL_MESSAGES_ROUTE, HOST } from "@/utils/constants";
+import {
+  GET_ALL_MESSAGES_ROUTE,
+  GET_CHANNEL_MESSAGES_ROUTE,
+  HOST,
+} from "@/utils/constants";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getColor } from "@/lib/utils";
 
@@ -39,9 +43,25 @@ const MessageContainer = () => {
       }
     };
 
+    const getChannelMessages = async () => {
+      try {
+        const response = await apiClient.get(
+          `${GET_CHANNEL_MESSAGES_ROUTE}/${selectedChatData._id}`
+        );
+
+        if (response.data.messages) {
+          setSelectedChatMessages(response.data.messages);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (selectedChatData._id) {
       if (selectedChatType === "contact") {
         getMessages();
+      } else if (selectedChatType === "channel") {
+        getChannelMessages();
       }
     }
   }, [selectedChatData, selectedChatType, setSelectedChatMessages]);
@@ -125,7 +145,6 @@ const MessageContainer = () => {
           {message.content}
         </div>
       )}
-      \
       {message.messageType === "file" && (
         <div
           className={`${
@@ -187,6 +206,45 @@ const MessageContainer = () => {
             } border inline-block p-4 rounded my-1 max-w-[50%] break-words ml-9`}
           >
             {message.content}
+          </div>
+        )}
+        {message.messageType === "file" && (
+          <div
+            className={`${
+              message.sender._id === userInfo.id
+                ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
+                : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
+            } border inline-block p-4 rounded my-1 max-w-[50%] break-words`}
+          >
+            {checkIfImage(message.fileUrl) ? (
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setShowImage(true);
+                  setImageURL(message.fileUrl);
+                }}
+              >
+                <img
+                  src={`${HOST}/${message.fileUrl}`}
+                  height={300}
+                  width={300}
+                />
+              </div>
+            ) : (
+              <div className="flex items-center justify-center gap-4">
+                <span className="text-white/8 text-3xl bg-black/20 rounded-full p-3">
+                  <MdFolderZip />
+                </span>
+                <span>{message.fileUrl.split("/").pop()}</span>
+                <span
+                  className="bg-black/20 p-3 text-2xl rounded-full hover:bg-black/50 cursor-pointer
+               transition-all duration-300"
+                  onClick={() => downloadFile(message.fileUrl)}
+                >
+                  <IoMdArrowRoundDown />
+                </span>
+              </div>
+            )}
           </div>
         )}
         {message.sender._id !== userInfo.id ? (
