@@ -283,7 +283,7 @@ const MessageContainer = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto scrollbar-hidden p-4 px-8 md:w-[65vw] lg:w-[70vw] xl:w-[90vw] w-full">
+    <div className="flex-1 overflow-y-auto scrollbar-hidden p-4 md:px-6 w-full max-w-full">
       {renderMessages()}
       <div ref={scrollRef} />
       {showImage && (
