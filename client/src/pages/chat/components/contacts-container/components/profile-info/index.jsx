@@ -1,5 +1,4 @@
-import { FiEdit2 } from "react-icons/fi";
-import { IoPowerSharp } from "react-icons/io5";
+import { HiPencilAlt, HiOutlineLogout } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -32,12 +31,12 @@ const ProfileInfo = () => {
 
   return (
     <div
-      className="absolute bottom-0 h-16 flex items-center justify-between px-10 
+      className="absolute bottom-0 h-16 flex items-center justify-between px-6 
     w-full bg-[#2a2b33] "
     >
       <div className="flex gap-3 items-center justify-center">
         <div className="w-12 h-12 relative ">
-          <Avatar className="h-12 w-12  rounded-full overflow-hidden">
+          <Avatar className="h-12 w-12 rounded-full overflow-hidden">
             {userInfo.image ? (
               <AvatarImage
                 src={`${HOST}/${userInfo.image}`}
@@ -57,7 +56,7 @@ const ProfileInfo = () => {
           </Avatar>
         </div>
 
-        <div>
+        <div className="text-md">
           {userInfo.firstName && userInfo.lastName
             ? `${userInfo.firstName} ${userInfo.lastName}`
             : ""}
@@ -67,9 +66,9 @@ const ProfileInfo = () => {
       <div className="flex gap-5">
         <Tooltip>
           <TooltipTrigger>
-            <FiEdit2
-              className="text-purple-500 text-xl font-medium"
+            <HiPencilAlt
               onClick={() => navigate("/profile")}
+              className="text-blue-400 hover:text-blue-500 text-xl transition duration-200 cursor-pointer"
             />
           </TooltipTrigger>
           <TooltipContent className="bg-[#1c1b1e] border-none text-white">
@@ -79,9 +78,9 @@ const ProfileInfo = () => {
 
         <Tooltip>
           <TooltipTrigger>
-            <IoPowerSharp
-              className="text-red-500 text-xl font-medium"
+            <HiOutlineLogout
               onClick={logout}
+              className="text-gray-400 hover:text-red-500 text-xl transition duration-200 cursor-pointer"
             />
           </TooltipTrigger>
           <TooltipContent className="bg-[#1c1b1e] border-none text-white">
